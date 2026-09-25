@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Istiak Emon — Backend & Web Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0f1a; --surface:#0f1729; --surface2:#141f38; --line:#213052;
+  --text:#e7ecf5; --muted:#8a97b3; --accent:#5eead4; --amber:#f0a94e;
+  --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',sans-serif; --disp:'Space Grotesk',sans-serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  box-sizing:border-box;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:70px; scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;
+  font-size:18px;
+  background-image:
+    linear-gradient(rgba(94,234,212,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94,234,212,.05) 1px, transparent 1px);
+  background-size:42px 42px;
+  background-position:center top;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(560px circle at 15% 8%, rgba(94,234,212,.13), transparent 60%),
+    radial-gradient(600px circle at 85% 40%, rgba(240,169,78,.08), transparent 60%);
+}
+::selection{background:var(--accent);color:#04151a;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+.wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+
+header.nav{position:sticky;top:0;z-index:10;background:rgba(10,15,26,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px);}
+.navrow{max-width:760px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;}
+.navrow .who{font-family:var(--mono);font-size:13px;color:var(--muted);}
+.navrow .who span{color:var(--accent);}
+.navlinks{display:flex;gap:20px;font-family:var(--mono);font-size:13px;}
+.navlinks a{color:var(--muted);}
+.navlinks a:hover{color:var(--accent);}
+
+section{padding:64px 0;border-bottom:1px solid var(--line);}
+section:last-of-type{border-bottom:none;}
+
+.hero{padding-top:56px;}
+.hero h1{
+  font-family:var(--disp);font-weight:700;font-size:clamp(46px,9vw,80px);margin:0 0 8px;letter-spacing:-0.03em;
+  background:linear-gradient(100deg,var(--text) 40%,var(--accent) 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero .role{color:var(--muted);font-size:21px;margin-bottom:32px;letter-spacing:-0.01em;}
+
+.query{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px 24px;font-family:var(--mono);font-size:15px;overflow-x:auto;box-shadow:0 0 0 1px rgba(94,234,212,.06), 0 20px 60px -30px rgba(94,234,212,.25);}
+.query .kw{color:var(--accent);}
+.query .str{color:var(--amber);}
+.query .field{color:var(--text);}
+.query .com{color:var(--muted);}
+#typed::after{content:'▊';color:var(--accent);animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+h2.sec-title{font-family:var(--disp);font-weight:700;font-size:26px;color:var(--text);letter-spacing:-0.01em;margin:0 0 28px;display:flex;align-items:center;gap:14px;}
+h2.sec-title::before{content:'';flex:0 0 10px;height:10px;border-radius:2px;background:var(--accent);display:inline-block;box-shadow:0 0 14px 2px rgba(94,234,212,.5);}
+h2.sec-title .line{flex:1;height:1px;background:var(--line);}
+h2.sec-title .idx{color:var(--muted);font-family:var(--mono);font-size:14px;font-weight:400;}
+
+.about p{color:#c7d0e3;max-width:64ch;font-size:17.5px;}
+.about .facts{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;font-family:var(--mono);font-size:12.5px;}
+.about .facts div{border:1px solid var(--line);border-radius:6px;padding:12px 14px;background:var(--surface);}
+.about .facts b{display:block;color:var(--text);font-family:var(--sans);font-size:13.5px;margin-top:2px;}
+.about .facts .lbl{color:var(--muted);}
+
+.proj-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.proj-tabs button{font-family:var(--mono);font-size:13.5px;background:var(--surface);color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:8px 16px;cursor:pointer;transition:box-shadow .2s;}
+.proj-tabs button.active{color:var(--bg);background:var(--accent);border-color:var(--accent);box-shadow:0 0 20px -6px rgba(94,234,212,.7);}
+.proj-card{display:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:28px;transition:box-shadow .25s,border-color .25s;}
+.proj-card.active{display:block;}
+.proj-card:hover{border-color:rgba(94,234,212,.35);box-shadow:0 0 40px -20px rgba(94,234,212,.35);}
+.proj-card h3{font-family:var(--disp);font-size:26px;margin:0 0 4px;}
+.proj-card .meta{color:var(--muted);font-family:var(--mono);font-size:12px;margin-bottom:14px;}
+.proj-card p{color:#c7d0e3;margin:0 0 14px;}
+.proj-card ul{margin:0 0 16px;padding-left:18px;color:#c7d0e3;}
+.proj-card ul li{margin-bottom:5px;}
+.stackrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.stackrow span{font-family:var(--mono);font-size:11.5px;color:var(--accent);border:1px solid var(--line);padding:4px 9px;border-radius:5px;background:var(--surface2);}
+.proj-card .link{font-family:var(--mono);font-size:13px;}
+
+.skillgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;}
+.skillgroup{border:1px solid var(--line);border-radius:8px;padding:16px 18px;background:var(--surface);}
+.skillgroup h4{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.03em;margin:0 0 12px;text-transform:none;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chips span{font-size:13.5px;padding:6px 12px;border-radius:5px;background:var(--surface2);border:1px solid var(--line);color:var(--text);transition:border-color .15s,color .15s,box-shadow .15s;}
+.chips span:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 0 16px -6px rgba(94,234,212,.6);}
+
+.contact .query{margin-bottom:22px;}
+.rows a.rowlink{display:flex;justify-content:space-between;align-items:center;padding:13px 4px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:14px;color:var(--text);}
+.rows a.rowlink:last-child{border-bottom:none;}
+.rows a.rowlink:hover{color:var(--accent);text-decoration:none;}
+.rows a.rowlink .k{color:var(--muted);}
+.rows a.rowlink .arrow{color:var(--accent);opacity:0;transition:opacity .15s;}
+.rows a.rowlink:hover .arrow{opacity:1;}
+#copyBtn{background:none;border:1px solid var(--line);color:var(--muted);font-family:var(--mono);font-size:11px;border-radius:5px;padding:3px 8px;cursor:pointer;margin-left:10px;}
+#copyBtn:hover{border-color:var(--accent);color:var(--accent);}
+
+footer{padding:28px 0 40px;color:var(--muted);font-family:var(--mono);font-size:12px;text-align:center;}
+
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){--bg:#0a0f1a;--text:#e7ecf5;}
+}
+@media (max-width:560px){
+  .about .facts{grid-template-columns:1fr;}
+  .navlinks{gap:12px;}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="navrow">
+    <div class="who">istiak<span>@</span>emon</div>
+    <nav class="navlinks">
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#skills">skills</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <h1>Istiak Emon</h1>
+    <div class="role">Statistics Undergraduate · Backend &amp; Web Developer</div>
+    <div class="query" id="typed"></div>
+  </section>
+
+  <section id="about" class="about">
+    <h2 class="sec-title"><span class="idx">01</span> About<span class="line"></span></h2>
+    <p>Junior backend developer building API-backed features with Express.js, Prisma, and PostgreSQL. I turn product requirements into clean database schemas and reliable server-side logic, and I'm used to shipping in remote teams and reacting fast to feedback.</p>
+    <div class="facts">
+      <div><span class="lbl">location</span><b>Gopalganj, Bangladesh</b></div>
+      <div><span class="lbl">education</span><b>BSc Statistics — GSTU · exp. 2026</b></div>
+      <div><span class="lbl">focus</span><b>Node.js · Express · PostgreSQL</b></div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2 class="sec-title"><span class="idx">02</span> Projects<span class="line"></span></h2>
+    <div class="proj-tabs">
+      <button class="active" data-p="0">pani_lagbe</button>
+      <button data-p="1">rl_bazar</button>
+    </div>
+
+    <div class="proj-card active" data-p="0">
+      <h3>Pani Lagbe</h3>
+      <div class="meta">Water distribution web app · personal project · Jan 2026 – present</div>
+      <p>A full-stack platform for managing local water delivery logistics, architected independently from database design through to API development.</p>
+      <div class="stackrow">
+        <span>Node.js</span><span>Express</span><span>TypeScript</span><span>Prisma</span><span>PostgreSQL</span><span>JWT</span><span>Zod</span><span>Nodemailer</span>
+      </div>
+      <ul>
+        <li>Custom relational schema built to reliably handle 100+ daily orders while keeping data integrity intact.</li>
+        <li>JWT authentication with role-based access for USER / ADMIN.</li>
+        <li>Product CRUD, stock management, addresses, and order status flows.</li>
+        <li>Admin dashboard for users, revenue, and order stats, with filtering, pagination, and Zod-validated input.</li>
+        <li>Nodemailer-driven email notifications and structured error handling throughout.</li>
+      </ul>
+      <div class="link">→ <a href="https://github.com/istiakEm0n" target="_blank" rel="noopener">github.com/istiakEm0n</a></div>
+    </div>
+
+    <div class="proj-card" data-p="1">
+      <h3>RL Bazar</h3>
+      <div class="meta">WordPress e-commerce platform · Apr – May 2025</div>
+      <p>Built and launched an e-commerce site from the ground up, independently managing a 30+ item product catalog for a remote client.</p>
+      <div class="stackrow">
+        <span>WordPress</span><span>CMS config</span><span>Responsive design</span>
+      </div>
+      <ul>
+        <li>Optimized site structure, navigation, and product listing layout — improving page load speed and browsing flow.</li>
+        <li>Worked with a remote team to plan and ship design and functionality updates against client feedback.</li>
+        <li>Handled CMS configuration and responsive troubleshooting under fast-paced timelines.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2 class="sec-title"><span class="idx">03</span> Skills<span class="line"></span></h2>
+    <div class="skillgrid">
+      <div class="skillgroup">
+        <h4>technical</h4>
+        <div class="chips"><span>Node.js</span><span>Express.js</span><span>TypeScript</span><span>PostgreSQL</span><span>Prisma</span><span>RESTful APIs</span><span>JWT</span><span>Zod</span></div>
+      </div>
+      <div class="skillgroup">
+        <h4>delivery</h4>
+        <div class="chips"><span>Requirements gathering</span><span>Feature planning</span><span>Bug tracking</span><span>Release coordination</span><span>Technical docs</span></div>
+      </div>
+      <div class="skillgroup">
+        <h4>collaboration</h4>
+        <div class="chips"><span>Client communication</span><span>Remote teamwork</span><span>Feedback implementation</span><span>Responsive troubleshooting</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2 class="sec-title"><span class="idx">04</span> Contact<span class="line"></span></h2>
+    <div class="query"><span class="kw">INSERT INTO</span> <span class="field">contacts</span> <span class="kw">VALUES</span> <span class="str">('istiak_emon', 'open_to_work')</span><span class="com">;</span></div>
+    <div class="rows">
+      <a class="rowlink" href="mailto:istiakemon231@gmail.com"><span class="k">email</span><span>istiakemon231@gmail.com <span class="arrow">→</span></span></a>
+      <a class="rowlink" href="tel:+8801715292349"><span class="k">phone</span><span>+880 1715292349 <span class="arrow">→</span></span></a>
+      <a class="rowlink" href="https://github.com/istiakEm0n" target="_blank" rel="noopener"><span class="k">github</span><span>istiakEm0n <span class="arrow">→</span></span></a>
+      <a class="rowlink" href="https://linkedin.com/in/istiak-emon" target="_blank" rel="noopener"><span class="k">linkedin</span><span>istiak-emon <span class="arrow">→</span></span></a>
+    </div>
+  </section>
+
+  <footer>built by istiak emon — © 2026</footer>
+</div>
+
+<script>
+// hero typing effect (one orchestrated moment)
+const lines = [
+  { text: "SELECT role, stack FROM istiak_emon;", type: "kw" }
+];
+const el = document.getElementById('typed');
+const full = 'SELECT role, stack FROM developer WHERE focus = \'backend\';';
+let i = 0;
+function type(){
+  if(i <= full.length){
+    el.textContent = full.slice(0, i);
+    i++;
+    setTimeout(type, 28);
+  }
+}
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  el.textContent = full;
+} else {
+  type();
+}
+
+// project tabs
+const tabs = document.querySelectorAll('.proj-tabs button');
+const cards = document.querySelectorAll('.proj-card');
+tabs.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabs.forEach(b=>b.classList.remove('active'));
+    cards.forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelector('.proj-card[data-p="'+btn.dataset.p+'"]').classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
